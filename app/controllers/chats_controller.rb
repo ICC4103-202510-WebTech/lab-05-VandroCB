@@ -6,4 +6,8 @@ class ChatsController < ApplicationController
     id = params[:id]
     @chat = Chat.find(id)
   end
+  def new
+  end
+  def create
+  end
 end

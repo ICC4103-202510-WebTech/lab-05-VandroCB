@@ -6,4 +6,8 @@ class UsersController < ApplicationController
     id = params[:id]
     @user = User.find(id)
   end
+  def new
+  end
+  def create
+  end
 end

@@ -6,4 +6,8 @@ class MessagesController < ApplicationController
     id = params[:id]
     @message = Message.find(id)
   end
+  def new
+  end
+  def create
+  end
 end
