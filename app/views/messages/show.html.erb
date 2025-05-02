@@ -1,0 +1,7 @@
+<h1>Message Details</h1>
+
+<p><strong>Email:</strong> <%= @message.chat_id %></p>
+<p><strong>First Name:</strong> <%= @message.user_id %></p>
+<p><strong>Last Name:</strong> <%= @message.body %></p>
+
+<%= link_to 'Back to Messages', messages_path %>
