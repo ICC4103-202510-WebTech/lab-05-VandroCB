@@ -1,0 +1,18 @@
+<h1>New Chat</h1>
+
+<%= form_with model: @chat, local: true do |form| %>
+    
+    <div class="field">
+        <%= form.label :sender_id, "Sender" %><br>
+        <%= form.select :sender_id, options_from_collection_for_select(@users, :id, :full_name), prompt: "Select a sender" %>
+    </div>
+
+    <div class="field">
+        <%= form.label :receiver_id, "Receiver" %><br>
+        <%= form.select :receiver_id, options_from_collection_for_select(@users, :id, :full_name), prompt: "Select a receiver" %>
+    </div>
+
+    <div class="actions">
+        <%= form.submit "Create Chat" %>
+    </div>
+<% end %>
