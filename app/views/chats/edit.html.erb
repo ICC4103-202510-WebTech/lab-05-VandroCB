@@ -2,7 +2,7 @@
 
 <%= form_with model: @chat, local: true do |form| %>
   <% if @chat.errors.any? %>
-    <div class="errors">
+    <div class="alert alert-danger">
       <h2><%= pluralize(@chat.errors.count, "error") %> prohibited this chat from being saved:</h2>
       <ul>
         <% @chat.errors.full_messages.each do |message| %>
