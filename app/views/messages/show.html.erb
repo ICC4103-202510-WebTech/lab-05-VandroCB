@@ -4,6 +4,17 @@
 
 <p><strong>Chat id:</strong> <%= @message.chat_id %></p>
 <p><strong>Sender id:</strong> <%= @message.user_id %></p>
+<p><strong>Sender Name:</strong> <%= @message.user.first_name %> <%= @message.user.last_name %></p>
 <p><strong>Message:</strong> <%= @message.body %></p>
 
+<p><strong>Sent At:</strong> <%= @message.created_at.strftime("%B %d, %Y %H:%M") %></p>
+
+
+
+<p> 
+<!-- #Back to the chat -->
+<%= link_to 'Back to Chat', chat_path(@message.chat) %>
+ or 
+<!-- #Back to Messages List -->
 <%= link_to 'Back to Messages', messages_path %>
+</p>

@@ -3,6 +3,21 @@
 <button><%= link_to 'Chat Settings', edit_chat_path %></button>
 
 <p><strong>Sender id:</strong> <%= @chat.sender_id %></p>
+<p><strong>Sender Name:</strong> <%= @chat.sender.first_name %> <%= @chat.sender.last_name %></p>
 <p><strong>Receiver id:</strong> <%= @chat.receiver_id %></p>
+<p><strong>Receiver Name:</strong> <%= @chat.receiver.first_name %> <%= @chat.receiver.last_name %></p>
+
+<h2>Messages in this Chat</h2>
+<ul>
+  <% @chat.messages.each do |message| %>
+    <li>
+      <strong>Sent by:</strong> <%= message.user.first_name %> <%= message.user.last_name %> - 
+      <strong>Message:</strong> <%= message.body %> - 
+      <strong>Sent At:</strong> <%= message.created_at.strftime("%B %d, %Y %H:%M") %>
+      <br>
+      <%= link_to 'View Message', message_path(message) %>
+    </li>
+  <% end %>
+</ul>
 
 <%= link_to 'Back to Chats', chats_path %>
