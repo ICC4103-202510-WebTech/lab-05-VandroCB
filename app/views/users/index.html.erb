@@ -18,6 +18,7 @@
         <td><%= user.first_name %></td>
         <td><%= user.last_name %></td>
         <td><%= link_to 'View', user_path(user) %></td>
+        <td><%= link_to 'Edit', edit_user_path(user), class: 'btn btn-sm btn-warning' %></td>
       </tr>
     <% end %>
   </tbody>

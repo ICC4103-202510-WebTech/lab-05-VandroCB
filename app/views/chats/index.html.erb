@@ -15,7 +15,7 @@
       <tr>
         <td><%= chat.sender_id %></td>
         <td><%= chat.receiver_id %></td>
-        <td><%= link_to 'View', chat_path(chat) %></td>
+        <td><%= link_to 'View', chat_path(chat) %> <%= link_to 'Edit', edit_chat_path(chat), class: 'btn btn-sm btn-warning' %></td>
       </tr>
     <% end %>
   </tbody>
