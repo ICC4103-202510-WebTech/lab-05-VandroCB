@@ -24,6 +24,23 @@ class MessagesController < ApplicationController
     end
   end
 
+  def edit
+    @message = Message.find(params[:id])
+    @chats = Chat.includes(:sender, :receiver)
+    @users = User.all
+  end
+
+  def update
+    @message = Message.find(params[:id])
+    if @message.update(message_params)
+      redirect_to @message.chat, notice: "Message updated successfully."
+    else
+      @chats = Chat.includes(:sender, :receiver)
+      @users = User.all
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def message_params

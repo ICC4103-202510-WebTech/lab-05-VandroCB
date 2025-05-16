@@ -1,0 +1,24 @@
+<h1>Edit message</h1>
+
+<%= form_with model: @message, local: true do |form| %>
+  <div class="field">
+    <%= form.label :chat_id, "Chat" %><br>
+    <%= form.collection_select :chat_id, @chats, :id, 
+      ->(chat) { "#{chat.sender.full_name} ↔ #{chat.receiver.full_name}" }, 
+      prompt: "Select a chat" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :user_id, "Author" %><br>
+    <%= form.collection_select :user_id, @users, :id, :full_name, prompt: "Select the author" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :body %><br>
+    <%= form.text_area :body, rows: 4 %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Update Message" %>
+  </div>
+<% end %>

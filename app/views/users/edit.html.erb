@@ -1,0 +1,22 @@
+<h1>Edit User</h1>
+
+<%= form_with model: @user, local: true do |form| %>
+  <div class="field">
+    <%= form.label :first_name %><br>
+    <%= form.text_field :first_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :last_name %><br>
+    <%= form.text_field :last_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %><br>
+    <%= form.email_field :email %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Update User" %>
+  </div>
+<% end %>
