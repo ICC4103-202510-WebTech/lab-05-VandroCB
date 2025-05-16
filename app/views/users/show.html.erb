@@ -6,4 +6,42 @@
 <p><strong>First Name:</strong> <%= @user.first_name %></p>
 <p><strong>Last Name:</strong> <%= @user.last_name %></p>
 
+<h2>Chats the User is Involved In</h2>
+
+<h3>Sent Chats</h3>
+<ul>
+  <% @sent_chats.each do |chat| %>
+    <li>
+      <strong>Chat ID:</strong> <%= chat.id %> - 
+      <strong>Receiver:</strong> <%= chat.receiver.first_name %> <%= chat.receiver.last_name %>
+      <br>
+      <%= link_to 'View Chat', chat_path(chat) %>
+    </li>
+  <% end %>
+</ul>
+
+<h3>Received Chats</h3>
+<ul>
+  <% @received_chats.each do |chat| %>
+    <li>
+      <strong>Chat ID:</strong> <%= chat.id %> - 
+      <strong>Sender:</strong> <%= chat.sender.first_name %> <%= chat.sender.last_name %>
+      <br>
+      <%= link_to 'View Chat', chat_path(chat) %>
+    </li>
+  <% end %>
+</ul>
+
+<h2>Messages Sent by User</h2>
+<ul>
+  <% @messages.each do |message| %>
+    <li>
+      <strong>Message:</strong> <%= message.body %> - 
+      <strong>Sent At:</strong> <%= message.created_at.strftime("%B %d, %Y %H:%M") %>
+      <br>
+      <%= link_to 'View Message', message_path(message) %>
+    </li>
+  <% end %>
+</ul>
+
 <%= link_to 'Back to Users', users_path %>

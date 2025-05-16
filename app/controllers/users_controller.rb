@@ -5,6 +5,14 @@ class UsersController < ApplicationController
   def show
     id = params[:id]
     @user = User.find(id)
+
+    # Fetch the sent and received chats for the user
+    @sent_chats = @user.sent_chats
+    @received_chats = @user.received_chats
+    @messages = @user.messages
+    
+    #@user.chats # All chats the user is part of
+    #@user.messages # All messages sent by the user
   end
   def new
     @user = User.new
