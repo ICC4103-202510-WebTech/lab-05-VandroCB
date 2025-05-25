@@ -15,24 +15,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_16_235813) do
   enable_extension "pg_catalog.plpgsql"
 
   create_table "chats", force: :cascade do |t|
-    t.integer "sender_id", null: false
-    t.integer "receiver_id", null: false
+    t.integer "sender_id"
+    t.integer "receiver_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "messages", force: :cascade do |t|
-    t.integer "chat_id", null: false
-    t.integer "user_id", null: false
-    t.text "body", null: false
+    t.integer "chat_id"
+    t.integer "user_id"
+    t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", null: false
-    t.string "first_name", null: false
-    t.string "last_name", null: false
+    t.string "email"
+    t.string "first_name"
+    t.string "last_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "messages_count"
