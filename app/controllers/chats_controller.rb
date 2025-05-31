@@ -1,16 +1,21 @@
 class ChatsController < ApplicationController
+  load_and_authorize_resource
+
   def index
-    @chats = Chat.all
+    @chats = Chat.accessible_by(current_ability)
   end
+
   def show
     id = params[:id]
     @chat = Chat.find(id)
     @chat.messages # All messages in the chat
   end
+
   def new
     @chat = Chat.new
     @users = User.all
   end
+
   def create
     @chat = Chat.new(chat_params)
     if @chat.save
@@ -29,7 +34,7 @@ class ChatsController < ApplicationController
   def update
     @chat = Chat.find(params[:id])
     if @chat.update(chat_params)
-      redirect_to @chat, notice: 'Chat was successfully updated.'
+      redirect_to @chat, notice: "Chat was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end

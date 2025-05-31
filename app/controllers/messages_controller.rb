@@ -1,6 +1,20 @@
 class MessagesController < ApplicationController
+  before_action :authenticate_user!
+  load_and_authorize_resource :chat
+  load_and_authorize_resource :message, through: :chat
+
+  # Ensure that the user is authorized to perform actions on messages
+  # This can be customized based on your authorization logic
+  before_action :authorize_user!, only: [ :new, :create, :edit, :update ]
+
+  # Define a method to check if the user is authorized
+  def authorize_user!
+    # Logic to check if the user is authorized to perform the action
+    # For example, you might check if the user is part of the chat
+    # or has permission to send messages.
+  end
   def index
-    @messages = Message.all
+    @messages = Message.accessible_by(current_ability)
   end
   def show
     id = params[:id]
