@@ -4,6 +4,18 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    def initialize(user)
+      return unless user.present?
+      # Chat access (only if user is sender or receiver)
+      can :read, Chat, sender_id: user.id
+      can :read, Chat, receiver_id: user.id
+
+      can :create, Chat
+      can [ :update, :destroy ], Chat, sender_id: user.id
+
+      can :create, Message
+      can [ :update, :destroy ], Message, user_id: user.id
+    end
     # Define abilities for the user here. For example:
     #
     #   return unless user.present?

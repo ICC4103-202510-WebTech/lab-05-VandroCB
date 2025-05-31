@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   root "static_pages#home"
   resources :users
-  resources :chats
-  resources :messages
+  resources :chats do
+    resources :messages, only: [ :index, :show, :new, :create ]
+  end
 end
