@@ -7,69 +7,81 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+puts "🌱 Seeding database..."
 
 User.destroy_all
 Chat.destroy_all
 Message.destroy_all
 
-User.create(
+User.create!(
     first_name: 'Alan',
     last_name: 'Brito',
-    email: 'abritos@miuandes.cl'
+    email: 'abritos@miuandes.cl',
+    password: '123456'
 )
 
-User.create(
+User.create!(
     first_name: 'Johny',
     last_name: 'Bravo',
-    email: 'jbravop@miuandes.cl'
+    email: 'jbravop@miuandes.cl',
+    password: '123456'
 )
 
-User.create(
+User.create!(
     first_name: 'Jimmy',
     last_name: 'Neutron',
-    email: 'jneutron@miuandes.cl'
+    email: 'jneutron@miuandes.cl',
+    password: '123456'
 )
 
-User.create(
+User.create!(
     first_name: 'Alan',
     last_name: 'Brito',
-    email: 'abritos@miuandes.cl'
+    email: 'abritos2@miuandes.cl',
+    password: '123456'
 )
 
-User.create(
+User.create!(
     first_name: 'John',
     last_name: 'Onion',
-    email: 'Johnonion24@mimail.com'
+    email: 'Johnonion24@mimail.com',
+    password: '123456'
 )
 
-User.create(
+User.create!(
     first_name: 'Alan',
     last_name: 'Gaton',
-    email: 'argaton@miuandes.cl'
+    email: 'argaton@miuandes.cl',
+    password: '123456'
 )
 
-User.create(
+User.create!(
     first_name: 'Roberto',
     last_name: 'Carlos',
-    email: 'rocarlo@example.cl'
+    email: 'rocarlo@example.cl',
+    password: '123456'
 )
 
-User.create(
+User.create!(
     first_name: 'Gaston',
     last_name: 'Retamales',
-    email: 'gatamales@miuandes.cl'
+    email: 'gatamales@miuandes.cl',
+    password: '123456'
 )
 
-User.create(
+User.create!(
     first_name: 'John',
     last_name: 'Yacombi',
-    email: 'jcombi@gems.com'
+    email: 'jcombi@gems.com',
+    password: '123456',
+    admin: true
 )
 
-User.create(
+User.create!(
     first_name: 'Totto',
     last_name: 'Johnson',
-    email: 'totson@sharklasers.net'
+    email: 'totson@sharklasers.net',
+    password: '123456'
 )
 
 Chat.create(
