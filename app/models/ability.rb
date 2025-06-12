@@ -4,12 +4,18 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    return unless user
+
     user ||= User.new # guest user
     if user.admin?
       can :manage, :all
     else
       can :read, :all
     end
+
+    can :manage, Chat, sender_id: user.id
+    can :manage, Chat, receiver_id: user.id
+
     # Define abilities for the user here. For example:
     #
     #   return unless user.present?
