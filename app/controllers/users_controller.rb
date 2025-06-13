@@ -1,7 +1,15 @@
 class UsersController < ApplicationController
+  load_and_authorize_resource
+  before_action :authenticate_user!
+
   def index
-    @users = User.all
+    if current_user.admin?
+      @users = User.all
+    else
+      redirect_to chats_path, alert: "Access denied."
+    end
   end
+
   def show
     id = params[:id]
     @user = User.find(id)
@@ -13,6 +21,7 @@ class UsersController < ApplicationController
     # @user.chats # All chats the user is part of
     # @user.messages # All messages sent by the user
   end
+
   def new
     @user = User.new
   end

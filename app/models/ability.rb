@@ -6,21 +6,29 @@ class Ability
   def initialize(user)
     return unless user.present?
 
-    # Users can manage their own chats
-    can :manage, Chat do |chat|
-      chat.sender_id == user.id || chat.receiver_id == user.id
-    end
+    if user.admin?
+      # Admin can manage all
+      can :manage, :all
+    else
+      # Regular users can only read their own user profile
+      can :read, User, id: user.id
 
-    # Users can create new chats
-    can :create, Chat
+      # Users can manage their own chats
+      can :manage, Chat do |chat|
+        chat.sender_id == user.id || chat.receiver_id == user.id
+      end
 
-    # Users can manage their own messages
-    can :manage, Message, user_id: user.id
+      # Users can create new chats
+      can :create, Chat
 
-    # Users can read messages in chats they're part of
-    can :read, Message do |message|
-      chat = message.chat
-      chat.sender_id == user.id || chat.receiver_id == user.id
+      # Users can manage their own messages
+      can :manage, Message, user_id: user.id
+
+      # Users can read messages in chats they're part of
+      can :read, Message do |message|
+        chat = message.chat
+        chat.sender_id == user.id || chat.receiver_id == user.id
+      end
     end
   end
 
