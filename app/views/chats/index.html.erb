@@ -6,19 +6,29 @@
 
 <div class="chat-list">
   <% @chats.each do |chat| %>
-    <div class="chat-item">
-      <% other_user = chat.sender == current_user ? chat.receiver : chat.sender %>
-      <%= link_to chat_path(chat), class: "chat-link" do %>
-        <div class="chat-preview">
-          <h3><%= other_user.full_name %></h3>
-          <% if chat.messages.last %>
-            <p class="last-message">
-              <%= truncate(chat.messages.last.body, length: 50) %>
-            </p>
-            <small><%= chat.messages.last.created_at.strftime("%H:%M") %></small>
-          <% end %>
+    <% other_user = chat.sender == current_user ? chat.receiver : chat.sender %>
+
+    <div class="card mb-3">
+      <%= link_to chat_path(chat), class: "text-decoration-none text-dark" do %>
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <h5 class="mb-1"><%= other_user.full_name %></h5>
+            </div>
+            <% if chat.messages.last %>
+              <div class="col-md-6 text-end">
+                <p class="mb-1 text-muted">
+                  <%= truncate(chat.messages.last.body, length: 50) %>
+                </p>
+                <small class="text-muted">
+                  <span>at: <%= chat.messages.last.created_at.strftime("%H:%M") %></span>
+                </small>
+              </div>
+            <% end %>
+          </div>
         </div>
       <% end %>
     </div>
+
   <% end %>
 </div>
