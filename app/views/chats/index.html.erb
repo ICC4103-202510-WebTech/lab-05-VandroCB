@@ -1,29 +1,24 @@
-<h1>All Chats</h1>
+<h1>My Chats</h1>
 
 <% if can? :create, Chat %>
-  <button><%= link_to 'New Chat', new_chat_path %></button>
+  <%= link_to 'Start New Chat', new_chat_path, class: 'btn btn-primary mb-4' %>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Sender id</th>
-      <th>Receiver id</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @chats.each do |chat| %>
-      <tr>
-        <td><%= chat.sender.first_name %> <%= chat.sender.last_name %> (ID: <%= chat.sender_id %>)</td>
-        <td><%= chat.receiver.first_name %> <%= chat.receiver.last_name %> (ID: <%= chat.receiver_id %>)</td>
-        <td>
-          <%= link_to 'View', chat_path(chat) %>
-          <% if can? :edit, chat %>
-            <%= link_to 'Edit', edit_chat_path(chat), class: 'btn btn-sm btn-warning' %>
+<div class="chat-list">
+  <% @chats.each do |chat| %>
+    <div class="chat-item">
+      <% other_user = chat.sender == current_user ? chat.receiver : chat.sender %>
+      <%= link_to chat_path(chat), class: "chat-link" do %>
+        <div class="chat-preview">
+          <h3><%= other_user.full_name %></h3>
+          <% if chat.messages.last %>
+            <p class="last-message">
+              <%= truncate(chat.messages.last.body, length: 50) %>
+            </p>
+            <small><%= chat.messages.last.created_at.strftime("%H:%M") %></small>
           <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

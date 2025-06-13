@@ -1,23 +1,49 @@
-<h1>Chat Details</h1>
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    <div class="col-md-8 mx-auto">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <% other_user = @chat.sender == current_user ? @chat.receiver : @chat.sender %>
+          <h5 class="mb-0">Chat with <%= other_user.full_name %></h5>
+          <div>
+            <%= link_to 'Chat Settings', edit_chat_path, class: 'btn btn-light btn-sm' %>
+            <%= link_to 'Back', chats_path, class: 'btn btn-light btn-sm ms-2' %>
+          </div>
+        </div>
 
-<button><%= link_to 'Chat Settings', edit_chat_path %></button>
+        <div class="card-body chat-messages" style="height: 400px; overflow-y: auto;">
+          <% @messages.each do |message| %>
+            <div class="d-flex <%= message.user == current_user ? 'justify-content-end' : 'justify-content-start' %> mb-3">
+              <div class="message-bubble <%= message.user == current_user ? 'bg-primary text-white' : 'bg-light' %> rounded p-2" style="max-width: 70%;">
+                <%= message.body %>
+                <div class="message-time small <%= message.user == current_user ? 'text-white-50' : 'text-muted' %>">
+                  <%= message.created_at.strftime("%H:%M") %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
 
-<p><strong>Sender id:</strong> <%= @chat.sender_id %></p>
-<p><strong>Sender Name:</strong> <%= @chat.sender.first_name %> <%= @chat.sender.last_name %></p>
-<p><strong>Receiver id:</strong> <%= @chat.receiver_id %></p>
-<p><strong>Receiver Name:</strong> <%= @chat.receiver.first_name %> <%= @chat.receiver.last_name %></p>
-
-<h2>Messages in this Chat</h2>
-<ul>
-  <% @chat.messages.each do |message| %>
-    <li>
-      <strong>Sent by:</strong> <%= message.user.first_name %> <%= message.user.last_name %> - 
-      <strong>Message:</strong> <%= message.body %> - 
-      <strong>Sent At:</strong> <%= message.created_at.strftime("%B %d, %Y %H:%M") %>
-      <br>
-      <%= link_to 'View Message', message_path(message) %>
-    </li>
-  <% end %>
-</ul>
-
-<%= link_to 'Back to Chats', chats_path %>
+        <div class="card-footer">
+          <%= form_with(model: [@chat, @new_message], 
+                        local: true, 
+                        url: chat_messages_path(@chat),
+                        class: 'message-form') do |f| %>
+            <div class="input-group">
+              <%= f.text_area :body, 
+                  class: 'form-control', 
+                  placeholder: 'Type your message...', 
+                  rows: '1',
+                  style: 'resize: none;' %>
+              <%= f.hidden_field :user_id, value: current_user.id %>
+              <%= f.hidden_field :chat_id, value: @chat.id %>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-send"></i>
+              </button>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

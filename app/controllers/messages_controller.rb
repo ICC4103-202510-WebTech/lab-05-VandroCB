@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_chat
   load_and_authorize_resource :chat
   load_and_authorize_resource :message, through: :chat
 
@@ -28,13 +29,13 @@ class MessagesController < ApplicationController
   end
 
   def create
-    @message = Message.new(message_params)
+    @message = @chat.messages.build(message_params)
+    @message.user = current_user
+
     if @message.save
-      redirect_to @message.chat, notice: "Message sent!"
+      redirect_to @chat, notice: "Message sent!"
     else
-      @chats = Chat.includes(:sender, :receiver)
-      @users = User.all
-      render :new, status: :unprocessable_entity
+      redirect_to @chat, alert: "Failed to send message."
     end
   end
 
@@ -57,7 +58,11 @@ class MessagesController < ApplicationController
 
   private
 
+  def set_chat
+    @chat = Chat.find(params[:chat_id])
+  end
+
   def message_params
-    params.require(:message).permit(:chat_id, :user_id, :body)
+    params.require(:message).permit(:body)
   end
 end

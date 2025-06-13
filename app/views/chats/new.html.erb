@@ -1,29 +1,42 @@
 <h1>New Chat</h1>
 
-<%= form_with model: @chat, local: true do |form| %>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow mt-4">
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">Start New Chat</h2>
+        </div>
+        
+        <div class="card-body">
+          <%= form_with model: @chat, local: true do |form| %>
+            <% if @chat.errors.any? %>
+              <div class="alert alert-danger">
+                <ul class="mb-0">
+                  <% @chat.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
 
-    <% if @chat.errors.any? %>
-    <div class="alert alert-danger">
-      <h2><%= pluralize(@chat.errors.count, "error") %> prohibited this chat from being saved:</h2>
-      <ul>
-        <% @chat.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-    
-    <div class="field">
-        <%= form.label :sender_id, "Sender" %><br>
-        <%= form.select :sender_id, options_from_collection_for_select(@users, :id, :full_name), prompt: "Select a sender" %>
-    </div>
+            <div class="form-group">
+              <%= form.label :receiver_id, "Select user to chat with", class: "form-label" %>
+              <%= form.collection_select :receiver_id, 
+                                      @users, 
+                                      :id, 
+                                      :full_name, 
+                                      { prompt: "Choose a user" }, 
+                                      { class: "form-select" } %>
+            </div>
 
-    <div class="field">
-        <%= form.label :receiver_id, "Receiver" %><br>
-        <%= form.select :receiver_id, options_from_collection_for_select(@users, :id, :full_name), prompt: "Select a receiver" %>
+            <div class="mt-4">
+              <%= form.submit "Start Chat", class: "btn btn-primary" %>
+              <%= link_to "Cancel", chats_path, class: "btn btn-secondary ms-2" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-
-    <div class="actions">
-        <%= form.submit "Create Chat" %>
-    </div>
-<% end %>
+  </div>
+</div>

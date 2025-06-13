@@ -1,27 +1,39 @@
 class ChatsController < ApplicationController
   load_and_authorize_resource
+  before_action :authenticate_user!
 
   def index
-    @chats = Chat.accessible_by(current_ability)
+    # Show only chats where current user is involved
+    @chats = Chat.for_user(current_user)
   end
 
   def show
-    id = params[:id]
-    @chat = Chat.find(id)
-    @chat.messages # All messages in the chat
+    @chat = Chat.find(params[:id])
+    @messages = @chat.messages.order(created_at: :asc)
+    @new_message = Message.new(chat: @chat, user: current_user)
   end
 
   def new
     @chat = Chat.new
-    @users = User.all
+    @users = User.where.not(id: current_user.id) # Only show other users
   end
 
   def create
+    # Check for existing chat first
+    existing_chat = Chat.find_between(current_user, User.find(chat_params[:receiver_id]))
+
+    if existing_chat
+      redirect_to existing_chat, notice: "Redirected to existing chat."
+      return
+    end
+
     @chat = Chat.new(chat_params)
+    @chat.sender = current_user
+
     if @chat.save
-      redirect_to @chat, notice: "Chat created successfully."
+      redirect_to @chat, notice: "Chat started successfully."
     else
-      @users = User.all
+      @users = User.where.not(id: current_user.id)
       render :new, status: :unprocessable_entity
     end
   end
@@ -43,6 +55,6 @@ class ChatsController < ApplicationController
   private
 
   def chat_params
-    params.require(:chat).permit(:sender_id, :receiver_id)
+    params.require(:chat).permit(:receiver_id)
   end
 end
